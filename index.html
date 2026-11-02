@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>RedX Dashboards</title>
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#0d0d10; --panel:#16161b; --panel-2:#1d1d23; --line:#2a2a32;
+  --text:#ececf1; --muted:#9a9aa6; --accent:#e5203a; --accent-soft:rgba(229,32,58,.14);
+  --blue:#4f8cff; --green:#2fbf71;
+  --gutter-l:max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r:max(16px, env(safe-area-inset-right, 0px));
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Inter,Roboto,sans-serif;}
+.wrap{max-width:1240px;margin:0 auto;padding:40px var(--gutter-r) 64px var(--gutter-l)}
+header h1{font-size:clamp(26px,4vw,36px);margin:0 0 6px;letter-spacing:-.01em}
+header h1 b{color:var(--accent)}
+header p{color:var(--muted);margin:0;max-width:760px}
+.stats{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 8px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;min-width:140px}
+.stat strong{display:block;font-size:24px;line-height:1.1}
+.stat span{color:var(--muted);font-size:13px}
+.stat.hl{border-color:var(--accent);background:var(--accent-soft)}
+nav.jump{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 8px}
+nav.jump a{color:var(--text);text-decoration:none;font-size:13px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--panel)}
+nav.jump a:hover{border-color:var(--accent)}
+section{margin-top:40px}
+section h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+section h2 .count{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;font-weight:500}
+section > p{color:var(--muted);margin:0 0 16px;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.card.main{border-color:var(--accent)}
+.card button.shot{all:unset;cursor:zoom-in;display:block;aspect-ratio:16/10;background:var(--panel-2);overflow:hidden;border-bottom:1px solid var(--line)}
+.card button.shot:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.card img{width:100%;height:100%;object-fit:cover;object-position:top left;display:block;transition:transform .25s}
+.card button.shot:hover img{transform:scale(1.02)}
+.body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.title{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.title h3{font-size:15px;margin:0}
+.tag{font-size:11px;border-radius:999px;padding:2px 8px;white-space:nowrap;border:1px solid var(--line);color:var(--muted)}
+.tag.cust{color:var(--blue);border-color:rgba(79,140,255,.4)}
+.tag.owner{color:var(--green);border-color:rgba(47,191,113,.4)}
+.tag.staff{color:var(--accent);border-color:rgba(229,32,58,.45)}
+.desc{color:var(--muted);font-size:13.5px;margin:0}
+code{font:12px ui-monospace,Consolas,monospace;color:var(--text);background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;align-self:flex-start;word-break:break-all}
+footer{margin-top:48px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:16px}
+dialog{border:0;padding:0;background:transparent;max-width:min(1440px,96vw);width:96vw;max-height:94vh}
+dialog::backdrop{background:rgba(0,0,0,.82)}
+.lb{background:var(--panel);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;max-height:94vh}
+.lb-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);color:var(--text)}
+.lb-head strong{font-size:15px}
+.lb-head span{color:var(--muted);font-size:13px;margin-left:8px}
+.lb-btns{display:flex;gap:6px}
+.lb-btns button{background:var(--panel-2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;font:inherit;font-size:13px}
+.lb-btns button:hover{border-color:var(--accent)}
+.lb-img{overflow:auto}
+.lb-img img{width:100%;display:block}
+@media (max-width:560px){ .wrap{padding-top:24px} .lb-head span{display:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Red<b>X</b> — every screen</h1>
+  <p>RedX has <strong>3 dashboards</strong> (pages that summarise everything at a glance) and 27 more working pages, 30 screens in all. Customers see the first five groups; the Operator group is visible only to RedX staff. Click any screenshot to see the full page.</p>
+  <div class="stats">
+    <div class="stat hl"><strong>3</strong><span>dashboards</span></div>
+    <div class="stat"><strong>30</strong><span>screens in total</span></div>
+    <div class="stat"><strong>20</strong><span>customer screens</span></div>
+    <div class="stat"><strong>10</strong><span>staff-only screens</span></div>
+  </div>
+  <nav class="jump" id="jump"></nav>
+</header>
+<main id="groups"></main>
+<footer>Captured on 2 November 2026 from two demo copies of RedX (local mode and hosted mode) at 1440 px wide. All names, companies, websites and findings are labelled sample data, not real customers. Some demo scans show “failed” because the demo has no scanning tools installed.</footer>
+</div>
+
+<dialog id="lb" aria-label="Full screenshot">
+  <div class="lb">
+    <div class="lb-head">
+      <div><strong id="lb-title"></strong><span id="lb-url"></span></div>
+      <div class="lb-btns">
+        <button type="button" id="lb-prev" aria-label="Previous">‹ Prev</button>
+        <button type="button" id="lb-next" aria-label="Next">Next ›</button>
+        <button type="button" id="lb-close" aria-label="Close">Close</button>
+      </div>
+    </div>
+    <div class="lb-img"><img id="lb-img" alt=""></div>
+  </div>
+</dialog>
+
+<script>
+const C = ["cust","Every customer user"], O = ["owner","Customer owner/admin"], S = ["staff","RedX staff only"];
+const GROUPS = [
+ {id:"dashboards", name:"The 3 dashboards", note:"The summary pages: one for a customer's security, one for their websites, one for the people running RedX.", items:[
+  ["dashboard","Dashboard","/",C,"Open findings by severity, the worst issues and the latest scans in the current project.",1],
+  ["websites","Websites (Website Guard)","/sites",C,"Every watched website with its health score and grade, uptime, certificate, domain and email checks.",1],
+  ["op-overview","Operator overview","/operator",S,"Platform at a glance: customers, plans, jobs, errors and health for the RedX team.",1]]},
+ {id:"guard", name:"Website Guard", note:"The monitoring product sold to small businesses.", items:[
+  ["website","One website","/sites/<id>",C,"Score breakdown, uptime chart, incidents and plain-English advice for a single site."],
+  ["report","Monthly report","/sites/report",C,"The month's uptime, incidents and score changes, ready to print or email."]]},
+ {id:"scanning", name:"Scanning", note:"Running security tools against targets the customer owns.", items:[
+  ["new-scan","New scan","/new-scan",C,"Choose a tool and a verified target, then start a scan."],
+  ["scan-history","Scan history","/scans",C,"Every scan with its status, target and time."],
+  ["findings","Findings","/findings",C,"All issues found, filterable by severity, status and target."],
+  ["reports","Reports","/reports",C,"Downloadable reports built from scans and findings."]]},
+ {id:"targets", name:"Targets and automation", note:"What may be scanned, and what runs by itself.", items:[
+  ["projects","Projects","/projects",C,"Groups of targets, so each team or client is kept separate."],
+  ["ownership","Ownership","/ownership",O,"Prove you own a domain or IP before RedX will scan it."],
+  ["workflows","Workflows","/workflows",C,"Chains of tools that run one after another."],
+  ["schedules","Schedules","/schedules",C,"Scans and workflows that run on a timetable."],
+  ["changes","Changes","/changes",C,"What changed between two scans of the same target."]]},
+ {id:"settings", name:"Settings", note:"Account and company settings. Most need the owner or admin role.", items:[
+  ["account","Account","/account",C,"Your profile, password, two-factor sign-in, data export and account deletion."],
+  ["organisation","Organisation","/admin/organisation",O,"Company name, country, monthly-report setting, and closing the account."],
+  ["users","Users","/admin/users",O,"Invite people and set their role: owner, admin, analyst or viewer."],
+  ["usage","Usage","/admin/usage",O,"How much of the plan is used: websites, people, targets, scans this month."],
+  ["billing","Billing","/admin/billing",O,"The four plans, Stripe checkout, and Manage billing for subscribers."],
+  ["support-access","Support access","/admin/support-access",O,"Let RedX support see your account for a limited time, or refuse."],
+  ["audit","Audit log","/admin/audit",O,"Who did what, and when, in this company's account."]]},
+ {id:"operator", name:"Operator (RedX staff only)", note:"Each staff role (admin, developer, support) sees only the pages its job needs. Two-factor sign-in is required.", items:[
+  ["op-health","Health","/admin/status",S,"Server, database, disk, scanner tools and the checker loop."],
+  ["op-errors","Errors","/operator/errors",S,"Application errors grouped by cause, with resolve buttons."],
+  ["op-jobs","Jobs","/operator/jobs",S,"Running and queued scans across the platform, with cancel."],
+  ["op-updates","Updates","/operator/updates",S,"Upgrade, roll back and maintenance notices, via the server agent."],
+  ["op-customers","Customers","/admin/organisations",S,"Every customer company: plan, usage, trial and suspension controls."],
+  ["op-ownership","Ownership requests","/admin/ownership-requests",S,"Review customers' proof that they own a target."],
+  ["op-privacy","Privacy requests","/operator/privacy",S,"GDPR export and erasure requests, with deadlines."],
+  ["op-team","Team","/operator/team",S,"Staff members, their roles and what each role may do."],
+  ["op-platform","Platform settings","/admin/settings",S,"Platform-wide settings such as email and sign-up rules."]]}
+];
+const all = [];
+const main = document.getElementById("groups"), jump = document.getElementById("jump");
+for (const g of GROUPS) {
+  const a = document.createElement("a"); a.href = "#" + g.id; a.textContent = g.name; jump.append(a);
+  const sec = document.createElement("section"); sec.id = g.id;
+  sec.innerHTML = `<h2>${g.name} <span class="count">${g.items.length}</span></h2><p>${g.note}</p><div class="grid"></div>`;
+  const grid = sec.querySelector(".grid");
+  for (const [file, title, url, who, desc, isMain] of g.items) {
+    const i = all.length; all.push({file, title, url});
+    const card = document.createElement("article"); card.className = "card" + (isMain ? " main" : "");
+    card.innerHTML = `<button class="shot" type="button" aria-label="Open full screenshot of ${title}"><img loading="lazy" src="images/${file}.jpg" alt="Screenshot of the ${title} page"></button>
+      <div class="body"><div class="title"><h3>${title}</h3><span class="tag ${who[0]}">${who[1]}</span></div>
+      <p class="desc">${desc}</p><code>${url.replace(/</g,"&lt;")}</code></div>`;
+    card.querySelector("button").addEventListener("click", () => openLb(i));
+    grid.append(card);
+  }
+  main.append(sec);
+}
+const lb = document.getElementById("lb"); let cur = 0;
+function openLb(i){
+  cur = (i + all.length) % all.length; const it = all[cur];
+  document.getElementById("lb-img").src = `images/${it.file}.jpg`;
+  document.getElementById("lb-img").alt = `Full screenshot of the ${it.title} page`;
+  document.getElementById("lb-title").textContent = it.title;
+  document.getElementById("lb-url").textContent = it.url;
+  document.querySelector(".lb-img").scrollTop = 0;
+  if (!lb.open) lb.showModal();
+}
+document.getElementById("lb-prev").onclick = () => openLb(cur - 1);
+document.getElementById("lb-next").onclick = () => openLb(cur + 1);
+document.getElementById("lb-close").onclick = () => lb.close();
+lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
+document.addEventListener("keydown", e => {
+  if (!lb.open) return;
+  if (e.key === "ArrowRight") openLb(cur + 1);
+  if (e.key === "ArrowLeft") openLb(cur - 1);
+});
+</script>
+</body>
+</html>
